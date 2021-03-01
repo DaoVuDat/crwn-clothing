@@ -22,4 +22,5 @@ const MenuItem = ({ title, imageUrl, size, history, linkUrl, match }) => {
   );
 };
 
+// need withRouter because this component is nested in HomePage Component and we need history property
 export default withRouter(MenuItem);
