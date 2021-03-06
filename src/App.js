@@ -16,14 +16,22 @@ import SignInAndSignUpPage from "./pages/sign-in-and-sign-out/sign-in-and-sign-o
 import CheckoutPage from "./pages/checkout/checkout.component";
 
 import Header from "./components/header/header.component";
-import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
+import {
+  auth,
+  createUserProfileDocument,
+  // addCollectionAndDocuments,
+} from "./firebase/firebase.utils";
 import { setCurrentUser } from "./redux/user/user.actions";
 import { selectCurrentUser } from "./redux/user/user.selectors";
+// import { selectCollectionsForPreview } from "./redux/shop/shop.selector";
 
 function App() {
   const dispatch = useDispatch();
-  const { currentUser } = useSelector(
-    createStructuredSelector({ currentUser: selectCurrentUser })
+  const { currentUser, collectionArray } = useSelector(
+    createStructuredSelector({
+      currentUser: selectCurrentUser,
+      // collectionArray: selectCollectionsForPreview,
+    })
   );
 
   const unsubscribeFromAuth = useRef(null);
@@ -44,12 +52,17 @@ function App() {
       } else {
         dispatch(setCurrentUser(userAuth));
       }
+
+      // addCollectionAndDocuments(
+      //   "collections",
+      //   collectionArray.map(({ title, items }) => ({ title, items }))
+      // );
     });
 
     return () => {
       unsubscribeFromAuth.current();
     };
-  }, [dispatch]);
+  }, [dispatch, collectionArray]);
 
   return (
     <div>
